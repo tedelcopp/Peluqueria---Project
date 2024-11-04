@@ -6,11 +6,11 @@
     <title>Peluquería Estilo</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 
 <body>
-
     <!-- Start Buttons Section -->
     <!-- Start WhatsApp Section -->
     <a href="https://wa.me/1234567890" target="_blank" class="whatsapp-button">
@@ -149,30 +149,33 @@
             <h2 class="section-title">Reserva tu Turno</h2>
             <p>Selecciona un servicio y reserva tu turno en el horario que prefieras.</p>
             
-            <form action="#" class="booking-form">
+            <form id="booking-form" action="#" class="booking-form" novalidate>
                 <div class="form-group">
                     <label for="name"><u>Nombre</u></label>
-                    <input type="text" id="name" name="name" placeholder="Ingresa tu nombre y apellido" required>
+                    <input type="text" id="name" name="name" placeholder="Nombre completo"  autocomplete="name" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="phone"><u>Teléfono</u></label>
-                    <input type="tel" id="phone" name="phone" placeholder="Ingresa tu número de teléfono" required>
+                    <input type="tel" id="phone" name="phone" placeholder="Número telefónico"  autocomplete="tel" required>
                 </div>
-                
-                <div class="form-group">
+        
+                <div class="form-group form-group-date">
                     <label for="date"><u>Fecha</u></label>
-                    <input type="date" id="date" name="date" required>
+                    <input type="date" id="date" name="date" autocomplete="off" required >
                 </div>
                 
                 <div class="form-group">
-                    <label for="time"><u>Hora</u></label>
-                    <input type="time" id="time" name="time" required>
+                    <label for="time"><u>Horario</u></label>
+                    <select id="time" name="time" required>
+                        <option value="" disabled selected>Selecciona un horario</option>
+                        <!-- Opciones de horarios se pueden agregar aquí -->
+                    </select>
                 </div>
                 
                 <div class="form-group">
                     <label for="service"><u>Servicio</u></label>
-                    <select id="service" name="service" required>
+                    <select id="service" name="service" required autocomplete="off" >
                         <option value="" disabled selected>Selecciona un servicio</option>
                         <option value="corte">Corte de Cabello</option>
                         <option value="peinado">Peinado</option>
@@ -181,26 +184,30 @@
                         <option value="otro">Otro..</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
                     <label for="comments"><u>Comentarios</u></label>
-                    <textarea id="comments" name="comments" rows="4" placeholder="Comentarios adicionales.."></textarea>
+                    <textarea id="comments" name="comments" rows="4" placeholder="Comentarios adicionales.." autocomplete="off"></textarea>
                 </div>
+                
                 <button type="submit" class="cta-button">Confirmar Reserva</button>
             </form>
-        </section>  
+        </section>
+              
     <!-- End Booking Section -->
 
  <!-- Start Newsletter Section -->
-    <section id="newsletter" class="newsletter-section">
-        <div class="newsletter-container">
-            <h2 class="newsletter-title">¡Suscríbete a nuestro Newsletter!</h2>
-            <p class="newsletter-description">Recibe un <strong>10% de descuento</strong> en tu primer corte al inscribirte y enterate de las ultimas tendencias</p>
-            <form class="newsletter-form">
-                <input type="email" class="newsletter-input" placeholder="Ingresa tu correo electrónico.." required>
-                <button type="submit" class="newsletter-button">Suscribirse</button>
-            </form>
-        </div>
-    </section>
+ <section id="newsletter" class="newsletter-section">
+    <div class="newsletter-container">
+        <h2 class="newsletter-title">¡Suscríbete a nuestro Newsletter!</h2>
+        <p class="newsletter-description">Recibe un <strong>10% de descuento</strong> en tu primer corte al inscribirte y entérate de las últimas tendencias</p>
+        <form class="newsletter-form" id="newsletter-form">
+            <!-- Cambiamos el tipo de "email" a "text" para evitar la validación automática -->
+            <input type="text" class="newsletter-input" placeholder="Ingresa tu correo electrónico.." id="email" autocomplete="off">
+            <button type="submit" class="newsletter-button">Suscribirse</button>
+        </form>
+    </div>
+</section>
         <!--  End Newsletter Section -->
 
     <!-- Start Footer Section -->
@@ -232,9 +239,10 @@
             <p>&copy; 2024 | Peluquería Estilo | Todos los derechos se encuentran reservados.</p>
         </div>
     </footer>
-        <!-- End Footer Section -->
-
+    <!-- End Footer Section -->
+    
     <!-- Start Scripts JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/Toastify.min.js"></script>
     <script>
         // Scroll 
         function scrollToSection(sectionId) {
@@ -287,7 +295,260 @@ let currentSlide = 0;
     }
 
     setInterval(nextSlide, 3000); 
-   </script>
-     <!-- End Scripts JavaScript -->
-</body>
+    </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const timeSelect = document.getElementById('time');
+
+        const openingHour = 10; 
+        const closingHour = 18; 
+        const interval = 45;
+
+        for (let hour = openingHour; hour < closingHour; hour++) {
+            for (let minute = 0; minute < 60; minute += interval) {
+                const time = new Date();
+                time.setHours(hour);
+                time.setMinutes(minute);
+
+                const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                const option = document.createElement('option');
+                option.value = formattedTime;
+                option.textContent = formattedTime;
+                timeSelect.appendChild(option);
+            }
+        }
+
+        timeSelect.addEventListener('focus', function () {
+            this.classList.add('open');
+        });
+
+        timeSelect.addEventListener('change', function () {
+            this.classList.remove('open');
+        });
+
+        timeSelect.addEventListener('blur', function () {
+            this.classList.remove('open');
+        });
+    });
+</script>
+    <!-- End Scripts JavaScript -->
+
+
+    <select id="fecha-select">
+        <!-- Las opciones serán generadas por JavaScript -->
+      </select>
+      
+      <script>
+        function generarOpcionesFecha() {
+          const select = document.getElementById('fecha-select');
+          const fechaActual = new Date();
+          const mesActual = fechaActual.getMonth(); // Mes actual (0-11)
+          const anioActual = fechaActual.getFullYear();
+          
+          // Obtener número de días en el mes actual
+          const diasEnMes = new Date(anioActual, mesActual + 1, 0).getDate();
+          const opciones = [];
+      
+          for (let dia = 1; dia <= diasEnMes; dia++) {
+            const fecha = new Date(anioActual, mesActual, dia);
+            const diaSemana = fecha.toLocaleDateString('es-ES', { weekday: 'long' });
+            const diaMes = fecha.getDate();
+            const nombreMes = fecha.toLocaleDateString('es-ES', { month: 'long' });
+      
+            // Crear opción en el formato "martes 5 de abril"
+            const textoOpcion = `${diaSemana} ${diaMes} de ${nombreMes}`;
+            const opcion = new Option(textoOpcion, fecha.toISOString().split('T')[0]); // Valor: "YYYY-MM-DD"
+            
+            opciones.push(opcion);
+          }
+      
+          // Limpiar el select y agregar nuevas opciones
+          select.innerHTML = '';
+          opciones.forEach(opcion => select.add(opcion));
+        }
+      
+        // Llama a la función al cargar la página
+        window.onload = generarOpcionesFecha;
+      </script>
+      
+
+
+    <!-- Start Scripts Notifications -->
+    <!-- Newsletter Tostify Section -->
+    <script>
+       function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+                e.preventDefault(); 
+
+                const emailInput = document.getElementById('email');
+                const emailValue = emailInput.value.trim();
+
+                // Validation Notification
+                if (!emailValue) {
+                    Toastify({
+                        text: "Por favor, ingresa tu correo electrónico.",
+                        duration: 3000,
+                        close: true,
+                        gravity: "top",
+                        position: 'right',
+                        style: {
+                            background: "#f44336",
+                        },
+                    }).showToast();
+                    return;
+                }
+
+                // Error Notification
+                if (!isValidEmail(emailValue)) {
+                    Toastify({
+                        text: "Hubo un problema al suscribirte. Por favor, intenta nuevamente.",
+                        duration: 3000,
+                        close: true,
+                        gravity: "top",
+                        position: 'right',
+                        style: {
+                            background: "#f44336", 
+                        },
+                    }).showToast();
+                    return;
+                }
+
+                // Success Notification
+                Toastify({
+                    text: "¡Te has suscrito exitosamente!",
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: 'right',
+                    style: {
+                        background: "#4CAF50", 
+                    },
+                }).showToast();
+
+                // Reset Form 
+                this.reset();
+            });
+        });
+    </script>
+ <!-- End NewsLetter Tostify Section -->
+
+ <!-- Start Booking Tostify Section -->
+<script>
+    document.getElementById('booking-form').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+        const service = document.getElementById('service').value;
+
+        if (!name && !phone && !date && !time && !service) {
+             // Validation Notification
+            Toastify({
+                text: "Por favor, completa todos los campos requeridos para reservar tu turno.",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                style: { background: "#FF6347" } 
+            }).showToast();
+            return;
+        }
+            // Validation Notification
+        if (!name) {
+            Toastify({
+                text: "Por favor, ingresa tu nombre completo.",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                style: { background: "#FF6347" } 
+            }).showToast();
+            return;
+        }
+            // Validation Notification
+        if (!phone) {
+            Toastify({
+                text: "Por favor, ingresa tu número de teléfono.",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                style: { background: "#FF6347" } 
+            }).showToast();
+            return;
+        }
+           // Validation Notification
+        const phonePattern = /^[0-9]{10}$/;
+        if (!phonePattern.test(phone)) {
+            Toastify({
+                text: "El número de teléfono debe tener 10 dígitos.",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                style: { background: "#FF6347" }
+            }).showToast();
+            return;
+        }
+           // Validation Notification
+        if (!date) {
+            Toastify({
+                text: "Por favor, selecciona una fecha para tu reserva.",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                style: { background: "#FF6347" } 
+            }).showToast();
+            return;
+        }
+           // Validation Notification
+        if (!time) {
+            Toastify({
+                text: "Por favor, selecciona una hora para tu reserva.",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                style: { background: "#FF6347" } 
+            }).showToast();
+            return;
+        }
+           // Validation Notification
+        if (!service) {
+            Toastify({
+                text: "Por favor, selecciona un servicio.",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                style: { background: "#FF6347" } 
+            }).showToast();
+            return;
+        }
+            // Success Notification
+        Toastify({
+            text: "¡Reserva confirmada con éxito!",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            style: { background: "#4CAF50" } 
+        }).showToast();
+
+            // Reset Form
+        this.reset();
+    });
+</script>
+ <!-- End Booking Tostify Section -->
+   <!-- End Scripts Notifications -->
+    </body>
 </html>
