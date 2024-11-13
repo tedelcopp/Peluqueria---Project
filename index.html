@@ -7,19 +7,20 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.js"></script>
+
 </head>
 
 <body>
     <!-- Start Buttons Section -->
     <!-- Start WhatsApp Section -->
-    <a href="https://wa.me/1234567890" target="_blank" class="whatsapp-button">
+    <a href="https://wa.me/1234567890" target="_blank" class="whatsapp-button" >
         <i class="fab fa-whatsapp"></i>
     </a>
     <!-- End WhatsApp Section -->
 
     <!-- Start Back to Top Button -->
-    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()" >
         <i class="fas fa-arrow-up"></i>
     </button>
     <!-- End Back to Top Button -->
@@ -148,34 +149,39 @@
         <section id="booking" class="section">
             <h2 class="section-title">Reserva tu Turno</h2>
             <p>Selecciona un servicio y reserva tu turno en el horario que prefieras.</p>
-            
+        
             <form id="booking-form" action="#" class="booking-form" novalidate>
                 <div class="form-group">
                     <label for="name"><u>Nombre</u></label>
-                    <input type="text" id="name" name="name" placeholder="Nombre completo"  autocomplete="name" required>
+                    <input type="text" id="name" name="name" placeholder="Nombre completo" autocomplete="name" required>
                 </div>
-                
+        
                 <div class="form-group">
                     <label for="phone"><u>Teléfono</u></label>
-                    <input type="tel" id="phone" name="phone" placeholder="Número telefónico"  autocomplete="tel" required>
+                    <input type="tel" id="phone" name="phone" placeholder="Número telefónico" autocomplete="tel" required>
                 </div>
         
                 <div class="form-group form-group-date">
                     <label for="date"><u>Fecha</u></label>
-                    <input type="date" id="date" name="date" autocomplete="off" required >
+                    <input type="date" id="date" name="date" autocomplete="off" required>
                 </div>
-                
+        
                 <div class="form-group">
                     <label for="time"><u>Horario</u></label>
                     <select id="time" name="time" required>
                         <option value="" disabled selected>Selecciona un horario</option>
-                        <!-- Opciones de horarios se pueden agregar aquí -->
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
                     </select>
                 </div>
-                
+        
                 <div class="form-group">
                     <label for="service"><u>Servicio</u></label>
-                    <select id="service" name="service" required autocomplete="off" >
+                    <select id="service" name="service" required autocomplete="off">
                         <option value="" disabled selected>Selecciona un servicio</option>
                         <option value="corte">Corte de Cabello</option>
                         <option value="peinado">Peinado</option>
@@ -184,17 +190,48 @@
                         <option value="otro">Otro..</option>
                     </select>
                 </div>
-                
+        
                 <div class="form-group">
                     <label for="comments"><u>Comentarios</u></label>
                     <textarea id="comments" name="comments" rows="4" placeholder="Comentarios adicionales.." autocomplete="off"></textarea>
                 </div>
-                
+        
                 <button type="submit" class="cta-button">Confirmar Reserva</button>
+        
+                <div class="form-group">
+                    <p>¿Ya tenés turno?</p>
+                    <button type="button" class="modify-button" onclick="openModifyCalendar()">Modificar Turno</button>
+                    <button type="button" class="cancel-button" onclick="cancelTurno()">Cancelar Turno</button>
+                </div>
             </form>
+        
+            <div id="modify-container" class="form-group" style="display: none;">
+                <label for="modify-date"><u>Modificar Fecha</u></label>
+                <input type="date" id="modify-date" name="modify-date" onchange="enableAcceptButton()">
+        
+                <label for="modify-time"><u>Modificar Horario</u></label>
+                <select id="modify-time" name="modify-time" onchange="enableAcceptButton()">
+                    <option value="" disabled selected>Selecciona un horario</option>
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                </select>
+        
+                <button type="button" id="accept-button" onclick="confirmModification()" style="display: none;">Aceptar</button>
+                <button type="button" id="cancel-button" onclick="closeModifyContainer()" style="display: none;">Cancelar</button>
+            </div>
+        
+            <div id="cancel-modal" style="display: none;">
+                <label for="cancel-code"><u>Ingresa el código de confirmación para cancelar</u></label>
+                <input type="text" id="cancel-code" placeholder="Código de confirmación">
+                <button type="button" onclick="confirmCancel()">Aceptar</button>
+                <button type="button" onclick="closeCancelModal()">Cancelar</button>
+            </div>
         </section>
-              
-    <!-- End Booking Section -->
+<!-- End Booking Section -->
 
  <!-- Start Newsletter Section -->
  <section id="newsletter" class="newsletter-section">
@@ -202,7 +239,6 @@
         <h2 class="newsletter-title">¡Suscríbete a nuestro Newsletter!</h2>
         <p class="newsletter-description">Recibe un <strong>10% de descuento</strong> en tu primer corte al inscribirte y entérate de las últimas tendencias</p>
         <form class="newsletter-form" id="newsletter-form">
-            <!-- Cambiamos el tipo de "email" a "text" para evitar la validación automática -->
             <input type="text" class="newsletter-input" placeholder="Ingresa tu correo electrónico.." id="email" autocomplete="off">
             <button type="submit" class="newsletter-button">Suscribirse</button>
         </form>
@@ -280,21 +316,27 @@ let currentSlide = 0;
     const slides = document.querySelectorAll('.slide');
     const totalSlides = slides.length;
 
-    function showSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.classList.remove('active');
-            if (i === index) {
-                slide.classList.add('active');
-            }
-        });
-    }
+    // Inicializar el slider
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        if (i === index) {
+            slide.classList.add('active');
+        }
+    });
+}
 
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % totalSlides; 
-        showSlide(currentSlide);
-    }
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    showSlide(currentSlide);
+}
 
-    setInterval(nextSlide, 3000); 
+function previousSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    showSlide(currentSlide);
+}
+
+setInterval(nextSlide, 5000); 
     </script>
 
 <script>
@@ -333,46 +375,6 @@ let currentSlide = 0;
     });
 </script>
     <!-- End Scripts JavaScript -->
-
-
-    <select id="fecha-select">
-        <!-- Las opciones serán generadas por JavaScript -->
-      </select>
-      
-      <script>
-        function generarOpcionesFecha() {
-          const select = document.getElementById('fecha-select');
-          const fechaActual = new Date();
-          const mesActual = fechaActual.getMonth(); // Mes actual (0-11)
-          const anioActual = fechaActual.getFullYear();
-          
-          // Obtener número de días en el mes actual
-          const diasEnMes = new Date(anioActual, mesActual + 1, 0).getDate();
-          const opciones = [];
-      
-          for (let dia = 1; dia <= diasEnMes; dia++) {
-            const fecha = new Date(anioActual, mesActual, dia);
-            const diaSemana = fecha.toLocaleDateString('es-ES', { weekday: 'long' });
-            const diaMes = fecha.getDate();
-            const nombreMes = fecha.toLocaleDateString('es-ES', { month: 'long' });
-      
-            // Crear opción en el formato "martes 5 de abril"
-            const textoOpcion = `${diaSemana} ${diaMes} de ${nombreMes}`;
-            const opcion = new Option(textoOpcion, fecha.toISOString().split('T')[0]); // Valor: "YYYY-MM-DD"
-            
-            opciones.push(opcion);
-          }
-      
-          // Limpiar el select y agregar nuevas opciones
-          select.innerHTML = '';
-          opciones.forEach(opcion => select.add(opcion));
-        }
-      
-        // Llama a la función al cargar la página
-        window.onload = generarOpcionesFecha;
-      </script>
-      
-
 
     <!-- Start Scripts Notifications -->
     <!-- Newsletter Tostify Section -->
@@ -439,57 +441,94 @@ let currentSlide = 0;
  <!-- End NewsLetter Tostify Section -->
 
  <!-- Start Booking Tostify Section -->
-<script>
-    document.getElementById('booking-form').addEventListener('submit', function(e) {
-        e.preventDefault(); 
+ <script>
 
+function cancelTurno() {
+    Toastify({
+                text: "Su turno ha sido cancelado!",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#FF6347",
+            }).showToast();
+            closeCancelModal();
+}
+   function openModifyCalendar() {
+        document.getElementById('cancel-modal').style.display = 'none';
+        
+        document.getElementById('modify-container').style.display = 'block';
+        
+        document.getElementById('accept-button').style.display = 'inline-block';
+        document.getElementById('cancel-button').style.display = 'inline-block';
+    }
+
+    function closeModifyContainer() {
+        document.getElementById('modify-container').style.display = 'none';
+        document.getElementById('accept-button').style.display = 'none';
+        document.getElementById('cancel-button').style.display = 'none';
+    }
+
+    function confirmModification() {
+        const selectedDate = document.getElementById('modify-date').value;
+        const selectedTime = document.getElementById('modify-time').value;
+
+        if (selectedDate && selectedTime) {
+            Toastify({
+                text: `¡Turno modificado para las ${selectedTime}hs el ${selectedDate}!`,
+                duration: 4000,
+                close: true,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#4CAF50",
+            }).showToast();
+            closeModifyContainer();
+        }
+    }
+
+    function confirmCancel() {
+        const cancelCode = document.getElementById('cancel-code').value.trim();
+
+        if (cancelCode === "1234") { // Código de cancelación
+            Toastify({
+                text: "Turno cancelado exitosamente.",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#FF6347",
+            }).showToast();
+            closeCancelModal();
+        } else {
+            Toastify({
+                text: "Código incorrecto. Intenta nuevamente.",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#FFA07A",
+            }).showToast();
+        }
+    }
+
+    function closeCancelModal() {
+        // Cerrar el modal de cancelación
+        document.getElementById('cancel-modal').style.display = 'none';
+    }
+    
+    document.getElementById('booking-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+    
         const name = document.getElementById('name').value.trim();
         const phone = document.getElementById('phone').value.trim();
         const date = document.getElementById('date').value;
         const time = document.getElementById('time').value;
         const service = document.getElementById('service').value;
-
-        if (!name && !phone && !date && !time && !service) {
-             // Validation Notification
+    
+        // Validación de campos
+        if (!name || !phone || !date || !time || !service) {
             Toastify({
                 text: "Por favor, completa todos los campos requeridos para reservar tu turno.",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "right",
-                style: { background: "#FF6347" } 
-            }).showToast();
-            return;
-        }
-            // Validation Notification
-        if (!name) {
-            Toastify({
-                text: "Por favor, ingresa tu nombre completo.",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "right",
-                style: { background: "#FF6347" } 
-            }).showToast();
-            return;
-        }
-            // Validation Notification
-        if (!phone) {
-            Toastify({
-                text: "Por favor, ingresa tu número de teléfono.",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "right",
-                style: { background: "#FF6347" } 
-            }).showToast();
-            return;
-        }
-           // Validation Notification
-        const phonePattern = /^[0-9]{10}$/;
-        if (!phonePattern.test(phone)) {
-            Toastify({
-                text: "El número de teléfono debe tener 10 dígitos.",
                 duration: 3000,
                 close: true,
                 gravity: "top",
@@ -498,56 +537,21 @@ let currentSlide = 0;
             }).showToast();
             return;
         }
-           // Validation Notification
-        if (!date) {
-            Toastify({
-                text: "Por favor, selecciona una fecha para tu reserva.",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "right",
-                style: { background: "#FF6347" } 
-            }).showToast();
-            return;
-        }
-           // Validation Notification
-        if (!time) {
-            Toastify({
-                text: "Por favor, selecciona una hora para tu reserva.",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "right",
-                style: { background: "#FF6347" } 
-            }).showToast();
-            return;
-        }
-           // Validation Notification
-        if (!service) {
-            Toastify({
-                text: "Por favor, selecciona un servicio.",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "right",
-                style: { background: "#FF6347" } 
-            }).showToast();
-            return;
-        }
-            // Success Notification
+    
+        // Notificación de éxito
         Toastify({
             text: "¡Reserva confirmada con éxito!",
             duration: 3000,
             close: true,
             gravity: "top",
             position: "right",
-            style: { background: "#4CAF50" } 
+            style: { background: "#4CAF50" }
         }).showToast();
-
-            // Reset Form
+    
+        // Reiniciar formulario
         this.reset();
     });
-</script>
+    </script>
  <!-- End Booking Tostify Section -->
    <!-- End Scripts Notifications -->
     </body>

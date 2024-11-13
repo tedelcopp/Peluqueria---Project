@@ -419,8 +419,6 @@ main section p {
 }
 
 /* Start Booking Section */
-
-
 .booking-form {
     max-width: 100%; 
     margin: 0 auto; 
@@ -446,8 +444,6 @@ main section p {
     z-index: 10;
     cursor: pointer;
 }
-/* Estilo del menú desplegable cuando está abierto */
-
 
 .booking-form select:focus {
     outline: none;
@@ -517,15 +513,176 @@ button.cta-button {
 
 button.cta-button:hover {
       transform: translateY(-2px); 
-    background-color: #ffc107; 
+      background-color: #e67e22; 
 }
+
+.form-group p {
+    margin-bottom: 10px; /* Reduce el margen inferior del texto */
+}
+
+.cancel-button {
+    background-color: #FF5733; 
+    color: whitesmoke;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.modify-button {
+    background-color: #3498DB; 
+    color: whitesmoke;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.cancel-button:hover {
+    background-color: #e04c1a;
+    transform: translateY(-2px); 
+}
+
+.modify-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px); 
+}
+#modify-container {
+    margin-top: 20px;
+}
+
+input[type="date"], input[type="text"], select {
+    padding: 8px;
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#accept-button, #cancel-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+#accept-button {
+    background-color: #4CAF50; 
+    color: whitesmoke;
+}
+
+#accept-button:hover {
+    background-color: #45a049; 
+}
+
+#cancel-button {
+    background-color: #FF6347; 
+    color: whitesmoke;
+}
+
+#cancel-button:hover {
+    background-color: #e55347; 
+}
+
+input[type="date"], input[type="text"], select {
+    padding: 8px;
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+button.cta-button {
+    background-color: #ffc107;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+button.cta-button:hover {
+    background-color: #ffb300; 
+    transform: translateY(-2px); 
+}
+/* Estilo para el modal de cancelación */
+#cancel-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none; /* Inicialmente oculto */
+    z-index: 1000;
+}
+
+/* Estilo para los inputs y botones dentro del modal */
+#cancel-container {
+    margin-top: 20px;
+}
+
+#cancel-button {
+    background-color: #FF6347;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#cancel-button:hover {
+    opacity: 0.8;
+}
+
+#cancel-section {
+    margin-top: 10px;
+}
+
+#cancel-section input {
+    padding: 8px;
+    font-size: 16px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#cancel-section button {
+    background-color: #FF6347;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#cancel-section button:hover {
+    opacity: 0.8;
+}
+
 /* End Booking Section */
 
 /* Start Testimonials Section */
 .testimonials-section {
     background-color: #333; 
     padding: 2rem 0; 
-    color: #fff; 
+    color: whitesmoke; 
     text-align: center; 
 }
 
@@ -731,6 +888,7 @@ footer {
     justify-content: center;
     text-decoration: none;
     transition: background-color 0.3s;
+    z-index: 9999; 
 }
 
 .whatsapp-button:hover {
@@ -754,6 +912,7 @@ footer {
     z-index: 1000; 
     width: 60px; 
     height: 60px; 
+    z-index: 9999; 
 }
 
 .back-to-top:hover {
