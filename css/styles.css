@@ -170,10 +170,9 @@ header p {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 350px; /* Altura fija del contenedor */
+    min-height: 350px;
 }
 
-/* Cada slide con transición suave */
 .carousel-slide {
     display: none;
     transition: opacity 0.5s ease;
@@ -181,7 +180,6 @@ header p {
     width: 100%;
 }
 
-/* Ajuste del tamaño fijo de la imagen */
 .carousel-slide img {
     max-width: 600px; 
     max-height: 450px; 
@@ -191,13 +189,11 @@ header p {
     border-radius: 10px;
 }
 
-/* Mostrar el slide actual */
 .carousel-slide.active {
     display: block;
     opacity: 1;
 }
 
-/* Botones de navegación ovalados */
 .carousel-button {
     position: absolute;
     top: 50%;
@@ -226,7 +222,6 @@ header p {
     right: 10px;
 }
 
-/* Ajuste responsive para pantallas pequeñas */
 @media (max-width: 600px) {
     .carousel-container {
         max-width: 90%;
@@ -517,7 +512,7 @@ button.cta-button:hover {
 }
 
 .form-group p {
-    margin-bottom: 10px; /* Reduce el margen inferior del texto */
+    margin-bottom: 10px; 
 }
 
 .cancel-button {
@@ -617,7 +612,6 @@ button.cta-button:hover {
     background-color: #ffb300; 
     transform: translateY(-2px); 
 }
-/* Estilo para el modal de cancelación */
 #cancel-modal {
     position: fixed;
     top: 50%;
@@ -627,11 +621,10 @@ button.cta-button:hover {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: none; /* Inicialmente oculto */
+    display: none; 
     z-index: 1000;
 }
 
-/* Estilo para los inputs y botones dentro del modal */
 #cancel-container {
     margin-top: 20px;
 }
